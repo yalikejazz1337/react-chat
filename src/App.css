@@ -98,6 +98,10 @@ input {
   background-color: #fff;
 }
 
+.chat-bubble.private {
+  color: yellow;
+}
+
 .chat-bubble__left {
   width: 35px;
   height: 35px;

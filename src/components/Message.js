@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import handleUsernameClick from "./SendMessage.js";
-const Message = ({ message }) => {
+import SendMessage from "./SendMessage";
+
+const Message = ({ message, onDMChange }) => {
   const [user] = useAuthState(auth);
 
   return (
-    <div className={`chat-bubble ${message.uid === user.uid ? "right" : ""}`}>
+    <div
+      className={`chat-bubble ${
+        message.name === user.displayName ? "right" : ""
+      }`}
+    >
       <img
         className="chat-bubble__left"
         src={message.avatar}
         alt="user avatar"
       />
       <div className="chat-bubble__right">
-        <button className="pm" onClick={null}>
+        <button className="pm" onClick={() => onDMChange(message.name)}>
           <p className="user-name">{message.name}</p>
         </button>
         <p className="user-message">{message.text}</p>
@@ -21,4 +26,5 @@ const Message = ({ message }) => {
     </div>
   );
 };
+
 export default Message;

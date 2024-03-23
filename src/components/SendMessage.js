@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, memo, useEffect, useMemo } from "react";
 import { auth, db } from "../firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 
-const SendMessage = ({ scroll }) => {
+const SendMessage = ({ scroll, isDM, name }) => {
   const [message, setMessage] = useState("");
 
   const sendMessage = async (event) => {
@@ -12,15 +17,21 @@ const SendMessage = ({ scroll }) => {
       return;
     }
     const { uid, displayName, photoURL } = auth.currentUser;
-    await addDoc(collection(db, "messages"), {
+    const collectionName = isDM ? "private_messages" : "messages"; // Dynamically select collection
+    await addDoc(collection(db, collectionName), {
       text: message,
       name: displayName,
       avatar: photoURL,
       createdAt: serverTimestamp(),
       uid,
+      // if the collectioname is private_messages, add the receiver's uid
+      ...(isDM && { receiver: name }),
     });
     setMessage("");
     scroll.current.scrollIntoView({ behavior: "smooth" });
+
+    //if you havent already, send your name and uid to the data base
+    //make the document id the display name
   };
 
   return (
@@ -33,7 +44,7 @@ const SendMessage = ({ scroll }) => {
         name="messageInput"
         type="text"
         className="form-input__input"
-        placeholder="type message, click on a username to DM them"
+        placeholder={isDM ? "DM mode" : "public mode"} // Placeholder in JSX for initial render
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />

@@ -1,12 +1,14 @@
 import React from "react";
 import GoogleSignin from "../img/btn_google_signin_dark_pressed_web.png";
-import { auth } from "../firebase";
 import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 import GitHubButton from "react-github-btn";
+import { auth, db } from "../firebase";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 const Welcome = () => {
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithRedirect(auth, provider);
+    //only once the user is signed in, send the UID to the database
   };
 
   return (
@@ -18,7 +20,7 @@ const Welcome = () => {
       </p>
       <button className="sign-in">
         <img
-          onClick={googleSignIn}
+          onClick={googleSignIn} // Add sendUID to the onClick event handler
           src={GoogleSignin}
           alt="sign in with google"
           type="button"
