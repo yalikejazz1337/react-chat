@@ -9,7 +9,11 @@ import {
 
 const SendMessage = ({ scroll, isDM, name }) => {
   const [message, setMessage] = useState("");
-
+  //if name = current user
+  //switch to public mode
+  if (name === auth.currentUser.displayName) {
+    isDM = false;
+  }
   const sendMessage = async (event) => {
     event.preventDefault();
     if (message.trim() === "") {
@@ -25,7 +29,7 @@ const SendMessage = ({ scroll, isDM, name }) => {
       createdAt: serverTimestamp(),
       uid,
       // if the collectioname is private_messages, add the receiver's uid
-      ...(isDM && { receiver: name }),
+      ...(isDM && { receiver: name, isPrivate: true }),
     });
     setMessage("");
     scroll.current.scrollIntoView({ behavior: "smooth" });

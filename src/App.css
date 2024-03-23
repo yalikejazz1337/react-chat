@@ -82,15 +82,15 @@ input {
   margin-bottom: 60px;
 }
 .chat-bubble {
-  border-radius: 20px 20px 20px 0;
+  border-radius: 20px 20px 20px 20px;
   padding: 15px;
   background-color: #7cc5d9;
   color: #1c2c4c;
-  width: max-content;
+  width: 100%;
   max-width: calc(100% - 50px);
   display: flex;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .chat-bubble.right {
   margin-left: auto;
@@ -99,7 +99,7 @@ input {
 }
 
 .chat-bubble.private {
-  color: yellow;
+  background-color: rgb(91, 138, 91);
 }
 
 .chat-bubble__left {
@@ -113,6 +113,26 @@ input {
   margin-bottom: 5px;
   font-size: 0.9rem;
   color: #1c2c4c;
+  display: inline;
+}
+
+.user-nameDM {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: white;
+  display: inline;
+  display: none;
+}
+.user-nameDM.yes {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: white;
+  display: inline;
+}
+.user-name.none {
+  display: none;
 }
 .pm {
   border: none;

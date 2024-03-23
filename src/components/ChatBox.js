@@ -74,6 +74,8 @@ const ChatBox = () => {
       const sortedMessages = fetchedMessages.sort(
         (a, b) => a.createdAt - b.createdAt
       );
+      //check for duplicate messages
+
       setPrivateMessages(sortedMessages);
     };
     fetchData();
@@ -87,8 +89,12 @@ const ChatBox = () => {
   }, []);
 
   const allMessages = [...messages, ...private_messages];
-  allMessages.sort((a, b) => a.createdAt - b.createdAt);
+  //make sure that there are no dusplciate messages
 
+  allMessages.sort((a, b) => a.createdAt - b.createdAt);
+  const uniqueMessages = allMessages.filter(
+    (message, index, array) => array.indexOf(message) === index
+  );
   const handleDMChange = (name) => {
     setIsDM(!isDM);
     console.log("name: ", name);
@@ -100,7 +106,7 @@ const ChatBox = () => {
   return (
     <main className="chat-box">
       <div className="messages-wrapper">
-        {allMessages?.map((message) => (
+        {uniqueMessages?.map((message) => (
           <Message
             key={message.id}
             message={message}
