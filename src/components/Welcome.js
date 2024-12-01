@@ -7,7 +7,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 const Welcome = () => {
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+    signInWithPopup(auth, provider);
     //only once the user is signed in, send the UID to the database
   };
 
